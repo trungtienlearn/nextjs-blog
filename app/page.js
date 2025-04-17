@@ -1,28 +1,39 @@
 // app/page.js
-import Link from 'next/link'; // Import Link
-import { getPosts } from '@/lib/data'; // Import hàm getPosts (sử dụng alias @)
+import { getPublishedPostsForList } from '@/lib/data'; // Import hàm lấy bài viết đã publish
+import PostCard from '@/components/PostCard'; // Import component PostCard
 
 export default async function HomePage() {
-  // Dữ liệu bài viết giả - ĐÃ THÊM SLUG
-  const posts = await getPosts(); // Gọi hàm getPosts để lấy danh sách bài viết
+  // Gọi hàm mới để lấy các bài viết đã publish cho trang chủ
+  const posts = await getPublishedPostsForList();
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Recent Posts</h2>
-      <div className="space-y-4">
-        {posts.map((post) => (
-          // Bọc toàn bộ div bài viết bằng Link hoặc chỉ tiêu đề cũng được
-          <div key={post.id} className="border p-4 rounded shadow hover:shadow-md transition-shadow">
-              <Link href={`/posts/${post.slug}`} className="group"> {/* Sử dụng Link và tạo href động */}
-                <h3 className="text-xl font-bold mb-1 group-hover:text-blue-600 transition-colors">{post.title}</h3>
-              </Link>
-            <p className="text-gray-700">{post.excerpt}</p>
-             <Link href={`/posts/${post.slug}`} className="text-blue-600 hover:underline mt-2 inline-block">
-                Read more &rarr;
-             </Link>
-          </div>
-        ))}
-      </div>
+    <div className="container mx-auto px-4 py-8"> {/* Container chung */}
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">
+        Recent Blog Posts
+      </h1>
+
+      {/* Kiểm tra nếu có bài viết */}
+      {posts && posts.length > 0 ? (
+        // Tạo layout lưới (Grid)
+        // - 1 cột trên mobile (mặc định)
+        // - 2 cột trên tablet (md:grid-cols-2)
+        // - 3 cột trên desktop (lg:grid-cols-3)
+        // - gap-6 hoặc gap-8 để tạo khoảng cách giữa các card
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Lặp qua mảng posts và render PostCard */}
+          {posts.map((post) => (
+            <PostCard key={post._id} post={post} /> // Truyền post object vào PostCard
+          ))}
+        </div>
+      ) : (
+        // Hiển thị khi không có bài viết
+        <p className="text-center text-gray-500">
+          There are no published posts yet. Check back soon!
+        </p>
+      )}
+
+       {/* TODO: Thêm nút Phân trang (Pagination) ở đây nếu cần */}
+       {/* <div className="mt-12 text-center"> ... Pagination Component ... </div> */}
     </div>
-  )
+  );
 }

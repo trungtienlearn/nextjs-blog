@@ -24,3 +24,70 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Thêm vào CUỐI file app/globals.css */
+
+/* Khôi phục định dạng cơ bản cho nội dung Tiptap/ProseMirror */
+.ProseMirror {
+  /* Đảm bảo khoảng cách cơ bản giữa các khối */
+  > * + * {
+    margin-top: 0.75em; /* Có thể điều chỉnh */
+  }
+
+  /* Định dạng cho Headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* Semi-bold hoặc dùng 'bold' */
+    line-height: 1.25;
+    margin-top: 1.25em; /* Khoảng cách phía trên */
+    margin-bottom: 0.5em; /* Khoảng cách phía dưới */
+  }
+  /* Kích thước chữ ví dụ (có thể điều chỉnh) */
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.25em; }
+  /* Thêm h4, h5, h6 nếu cần */
+
+  /* Định dạng cho Lists */
+  ul, ol {
+    padding-left: 1.75em; /* Thụt vào để hiển thị dấu/số */
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  ul { list-style-type: disc; } /* Dấu chấm tròn */
+  ol { list-style-type: decimal; } /* Số thứ tự */
+  /* Khoảng cách giữa các mục list */
+  li { margin-top: 0.25em; }
+  /* Nếu trong li có thẻ p, điều chỉnh margin của p */
+  li > p { margin-top: 0.1em; margin-bottom: 0.1em; }
+
+  /* Định dạng cho Bold/Italic (thường font xử lý) */
+  strong { font-weight: bold; }
+  em { font-style: italic; }
+
+  /* Thêm định dạng cho các thẻ khác nếu cần: blockquote, code... */
+}
+
+/* Thêm vào CUỐI file app/globals.css */
+
+/* Định dạng cho các nút trên Toolbar Tiptap */
+.tiptap-toolbar button {
+  /* Style cơ bản: padding, border, bo góc, cỡ chữ, khoảng cách, màu nền/chữ mặc định */
+  @apply px-2 py-1 border border-gray-300 rounded text-sm mr-1 mb-1 bg-gray-100 text-gray-800 disabled:opacity-50;
+  /* Thêm hiệu ứng chuyển động mượt mà */
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Hiệu ứng Hover cho nút (khi không bị disable) */
+.tiptap-toolbar button:hover:not(:disabled) {
+  @apply bg-gray-200 border-gray-400;
+}
+
+/* Style cho nút khi định dạng đang active */
+.tiptap-toolbar button.is-active {
+  @apply bg-blue-500 text-white border-blue-500;
+}
+
+/* (Tùy chọn) Hiệu ứng Hover cho nút đang active */
+.tiptap-toolbar button.is-active:hover:not(:disabled) {
+   @apply bg-blue-600 border-blue-600;
+}
